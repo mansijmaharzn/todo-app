@@ -14,6 +14,7 @@ class _HomeState extends State<Home> {
   final todoList = ToDo.todoList();
   List<ToDo> _foundTodos = [];
   final _todoController = TextEditingController();
+  var _selectedDate;
 
   @override
   void initState() {
@@ -81,6 +82,17 @@ class _HomeState extends State<Home> {
               Container(
                 margin: EdgeInsets.only(bottom: 20, right: 20),
                 child: ElevatedButton(
+                  child: Icon(Icons.calendar_today_outlined),
+                  onPressed: _presentDatePicker,
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: tdBlue,
+                      minimumSize: Size(58, 58),
+                      elevation: 10),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(bottom: 20, right: 20),
+                child: ElevatedButton(
                   child: Text(
                     '+',
                     style: TextStyle(fontSize: 40),
@@ -93,7 +105,7 @@ class _HomeState extends State<Home> {
                       minimumSize: Size(58, 58),
                       elevation: 10),
                 ),
-              )
+              ),
             ]),
           )
         ],
@@ -114,9 +126,15 @@ class _HomeState extends State<Home> {
   }
 
   void _addTodoItem(String todo) {
+    if (todo.isEmpty) {
+      return;
+    }
+
     setState(() {
       todoList.add(ToDo(
-          id: DateTime.now().millisecondsSinceEpoch.toString(), title: todo));
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          title: todo,
+          date: _selectedDate));
     });
     _todoController.clear();
   }
@@ -173,5 +191,18 @@ class _HomeState extends State<Home> {
             )
           ]),
     );
+  }
+
+  void _presentDatePicker() {
+    showDatePicker(
+            context: context,
+            initialDate: DateTime.now(),
+            firstDate: DateTime(2023),
+            lastDate: DateTime(2024))
+        .then((pickedDate) {
+      setState(() {
+        _selectedDate = pickedDate;
+      });
+    });
   }
 }

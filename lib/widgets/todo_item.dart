@@ -28,12 +28,21 @@ class ToDoItem extends StatelessWidget {
           todo.isDone ? Icons.check_box : Icons.check_box_outline_blank,
           color: tdBlue,
         ),
-        title: Text(
-          todo.title,
-          style: TextStyle(
-              fontSize: 16,
-              color: tdBlack,
-              decoration: todo.isDone ? TextDecoration.lineThrough : null),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              todo.title,
+              style: TextStyle(
+                  fontSize: 16,
+                  color: tdBlack,
+                  decoration: todo.isDone ? TextDecoration.lineThrough : null),
+            ),
+            Text(
+              "${todo.date.day}-${todo.date.month}-${todo.date.year}",
+              style: TextStyle(fontSize: 12),
+            )
+          ],
         ),
         trailing: Container(
           padding: EdgeInsets.all(0),
